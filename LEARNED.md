@@ -590,3 +590,27 @@ form_transaction.addEventListener("submit", (event) => addTransaction(event, tra
 A parameter's value comes only from what the *caller* supplies when invoking the function — naming it the same as some outer variable doesn't connect them, it just shadows the outer one inside that function's body. To actually reuse an outer variable inside a callback, don't declare a parameter for it at all; reference it directly and let closure do the work — exactly the pattern already used correctly for `transactions` inside the Delete button's click handler back in Stage 7.
 
 **Gotcha — one single source of truth.** A tempting-but-wrong fix along the way was giving `ui.js` its own independent `loadTransactions("TRANSACTIONS")` call, separate from `main.js`'s. That would have created two unrelated copies of the transaction data that could silently drift out of sync — worse than the circular-import problem it was meant to dodge. Only one place should ever own and load the real data; everywhere else should receive it as a parameter.
+
+## Git Basics — `init`, `status`, `add`, `commit`
+
+A git repository is just a hidden `.git/` folder that tracks snapshots of everything alongside it. `git init` creates that folder (turns the current directory into a repo) but doesn't track or save anything by itself.
+
+`git status` reports the current state: untracked files (git sees them but isn't watching them), staged changes (ready to be committed), and unstaged changes (tracked files that were modified since the last commit).
+
+The **staging area** is a draft of the next commit — a spot to deliberately choose exactly which changes go into that snapshot, rather than committing everything on disk automatically. `git add <file>` (or `git add .` for everything in and below the current directory) moves a file's current state into that draft.
+
+`git commit -m "message"` takes a permanent snapshot of whatever is currently staged.
+
+```
+git init
+git status
+git add .
+git commit -m "docs: add git notes to LEARNED.md"
+git log
+```
+
+`git log` shows the commit history — each entry has a unique hash (a fingerprint of that snapshot), the author/date (pulled from git config, not typed manually), and the message. `(HEAD -> main)` next to the newest commit means `HEAD` — "where you currently are" — is pointing at the tip of the `main` branch.
+
+**Commit message convention** (Conventional Commits): `type: short description`, e.g. `feat:`, `fix:`, `docs:`, `refactor:`, `chore:`. The description is imperative mood ("add X", not "added X"), lowercase, no trailing period, and specific enough that `git log --oneline` alone tells a reader what happened — a message like `add LEARNED.md` is too vague once the file already exists; `add git notes to LEARNED.md` says what actually changed.
+
+**Gotcha:** nothing is tracked automatically just because `git init` was run — a file has to be explicitly `git add`ed (and then committed) before git records anything about it. An empty repo with real files sitting in it still reports "No commits yet."
