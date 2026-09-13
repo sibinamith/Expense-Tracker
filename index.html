@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, height= device-height">
+            <title> Expense Tracker using JS</title>
+    </head>
+<body>
+<script src = "src/main.js" type = "module"></script>
+<form id = "transaction-form">
+    <input type =  "text" name = "description" id = "description-input" placeholder="Enter expense description" />
+    <input type = "number" name = "amount" id = "amount-input" placeholder="Enter expense amount" />
+    <input type = "text" name = "category" id = "category-input" placeholder="Enter category" />
+    <br>
+    <label for = "expense-input" >Expense:
+    <input type = "checkbox" name = "income" id = "expense-input">
+    </label>
+    <br>
+    <label for = "date-input">Date of Transaction: 
+    <input type = "date" name = "date" id = "date-input" />
+    </label>
+    <br>
+    <button id = "add-btn">Add Transaction</button>
+</form>
+<hr>
+<input type = "search" id = "search-box" placeholder="Enter to search ">
+<select name = "category-select" id = "category-select">
+    <option value = "all">All</option>
+    <option value = "Food">Food</option>
+    <option value = "Salary">Salary</option>
+    <option value = "Rent">Rent</option>
+</select>
+<label name = "All">
+<input type = "radio" name = "mode" value = 2>All
+</label>
+<label name = "Expense">
+<input type = "radio" name = "mode" value = 1>Expense
+</label>
+<label name = "Income">
+<input type = "radio" name = "mode" value = 0>Income
+</label>
+<br>
+<label for = "sort" > Sort: 
+<select name = "sort" id = "sort">
+    <option value = "None">None</option>
+    <option value = "a">Amount: Low - High</option>
+    <option value = "A">Amount: High - Low</option>
+</select>
+</label>
+<div id="transaction-list"></div>
+<div id = "transaction-total"></div>
+<div id = "chart"></div>
+    
+</body>
+</html>
