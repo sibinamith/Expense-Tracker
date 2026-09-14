@@ -63,8 +63,6 @@ python3 -m http.server 8000
 
 Then open <http://localhost:8000> in a browser.
 
-The current shell used to inspect this repository does not have `python3` installed. Any equivalent static HTTP server can be used.
-
 ## Usage
 
 1. Enter a description, amount, category, and date.
@@ -82,6 +80,18 @@ No automated test files or test scripts are present in the repository. Manual ve
 ## Configuration and Deployment
 
 The application has no environment variables, backend API, database, or deployment configuration. It can be deployed as static files to a host that serves `index.html` and the `src/` directory over HTTP.
+
+## Future Improvements
+
+Stage 13's asynchronouse programming and API calls
+
+TypeScript/React
+
+FastAPI
+
+Backend Database
+
+Docker Conatiners
 
 ## Contributing
 
