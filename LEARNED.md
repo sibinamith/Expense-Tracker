@@ -614,3 +614,37 @@ git log
 **Commit message convention** (Conventional Commits): `type: short description`, e.g. `feat:`, `fix:`, `docs:`, `refactor:`, `chore:`. The description is imperative mood ("add X", not "added X"), lowercase, no trailing period, and specific enough that `git log --oneline` alone tells a reader what happened — a message like `add LEARNED.md` is too vague once the file already exists; `add git notes to LEARNED.md` says what actually changed.
 
 **Gotcha:** nothing is tracked automatically just because `git init` was run — a file has to be explicitly `git add`ed (and then committed) before git records anything about it. An empty repo with real files sitting in it still reports "No commits yet."
+
+## Git — `diff`, branches, and merging
+
+`git diff` shows exactly what changed in tracked-but-unstaged files, line by line — not the whole file, just the difference between the last commit's version and what's currently on disk:
+
+```
+--- a/LEARNED.md    ← the version in the last commit
++++ b/LEARNED.md    ← the version currently on disk
+@@ -590,3 +590,27 @@   ← "starting at line 590, old had 3 lines, new has 27"
+```
+
+Lines starting with `+` were added; `-` means removed. A pure addition (like adding a new section) shows only `+` lines.
+
+A **branch** is a movable pointer to a commit — nothing more. `git branch` lists them; `git switch -c <name>` (or the older, more general `git checkout -b <name>`) creates a new one and switches to it in one step. `HEAD` always points at whichever branch you currently have checked out, so committing while on a new branch only moves *that* branch's pointer forward — the branch you came from doesn't move until you explicitly bring the new work back into it.
+
+`git merge <branch>` brings another branch's commits into the one you're currently on. Two different things can happen:
+
+- **Fast-forward merge:** if the current branch hasn't moved since the other branch split off from it, git just slides the pointer forward to match — no new commit, no conflict possible, since there's nothing to reconcile.
+- **Three-way merge:** if both branches gained commits since splitting, git combines both histories into a new **merge commit** with two parents. This is where conflicts can happen, if both branches changed the same lines.
+
+Once a branch is fully merged in, it's safe to delete: `git branch -d <name>` (lowercase — *safe* delete, refuses if there's unmerged work). `-D` (uppercase) force-deletes regardless, which can genuinely lose commits if used on a branch that wasn't actually merged — reserve it for branches you deliberately want to discard.
+
+## Git — remotes and pushing to GitHub
+
+A **remote** is a named pointer to a repository hosted elsewhere; `origin` is the conventional name for "the main hosted copy." `git remote add origin <url>` connects a *new* remote name to a URL — it fails with "remote origin already exists" if one is already set. To change an *existing* remote's URL, use `git remote set-url origin <url>` instead.
+
+`git push -u origin main` uploads local commits to the remote. The `-u` (`--set-upstream`) links the local `main` branch to `origin/main`, so future `git push`/`git pull` on this branch don't need the remote/branch spelled out again.
+
+**Two ways to authenticate with GitHub, and why one failed:**
+
+- **SSH** (`git@github.com:user/repo.git`) requires an SSH key pair already generated on the machine, with the *public* half uploaded to your GitHub account beforehand. Without that, push fails immediately with `Permission denied (publickey)` — GitHub never even gets to check whether the repo exists.
+- **HTTPS** (`https://github.com/user/repo.git`) prompts for a username and password at push time — but GitHub stopped accepting real account passwords here in 2021. The "password" prompt actually expects a **Personal Access Token**. The username field barely matters (an actual username or the account's email both work); authentication succeeds or fails based entirely on whether the token in the password field is valid.
+
+**Gotcha:** pushing to a freshly created GitHub repo that was initialized with its own README/license/`.gitignore` would fail (or need a merge) on first push, because the remote would already have commit history unrelated to the local repo's. Creating the remote repo *empty* avoids that entirely when local history already exists.

@@ -818,8 +818,8 @@ Maintain the following checklist.
 * [ ] VS Code
 * [ ] Browser DevTools
 * [ ] Debugging
-* [ ] Git
-* [ ] GitHub
+* [x] Git
+* [x] GitHub
 * [ ] README
 * [ ] Deployment
 
