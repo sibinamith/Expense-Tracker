@@ -648,3 +648,29 @@ A **remote** is a named pointer to a repository hosted elsewhere; `origin` is th
 - **HTTPS** (`https://github.com/user/repo.git`) prompts for a username and password at push time — but GitHub stopped accepting real account passwords here in 2021. The "password" prompt actually expects a **Personal Access Token**. The username field barely matters (an actual username or the account's email both work); authentication succeeds or fails based entirely on whether the token in the password field is valid.
 
 **Gotcha:** pushing to a freshly created GitHub repo that was initialized with its own README/license/`.gitignore` would fail (or need a merge) on first push, because the remote would already have commit history unrelated to the local repo's. Creating the remote repo *empty* avoids that entirely when local history already exists.
+
+## TypeScript — `tsc` is a build step, and `tsconfig.json` decides what it emits
+
+TypeScript never runs in the browser. `tsc` reads `.ts` files from `rootDir`, checks their types, and writes plain `.js` into `outDir`. `index.html` loads the compiled `dist/main.js`, never the `.ts` source. `npx tsc --watch` reruns that compile on every save.
+
+```json
+"rootDir": "./src",
+"outDir": "./dist",
+"module": "esnext",
+"target": "esnext",
+"allowJs": true,
+"noEmitOnError": true
+```
+
+- **`target`** picks the JS language version of the output. **`module`** picks the module system `import`/`export` compiles to.
+- Type annotations are erased on compile. `const test: string = 5;` becomes `const test = 5;`, so types exist only at compile time and the browser never sees them.
+- `tsc` checks **types only**. It won't catch a logic bug like `total - amount` where `total + amount` was meant.
+- `typescript` is a `--save-dev` dependency because only the build needs it, never the running app.
+
+**Gotchas hit:**
+- `"module": "nodenext"` (the `tsc --init` default) emitted CommonJS (`require`/`exports`) because `package.json` says `"type": "commonjs"`. The browser threw `require is not defined`. Setting `"module": "esnext"` emits plain `import`/`export`.
+- `tsc` doesn't copy plain `.js` files into `outDir`, so `dist/main.js`'s `import "./storage.js"` got a 404. `"allowJs": true` makes it emit the untouched `.js` files too.
+- By default `tsc` still writes `.js` when there are type errors. `"noEmitOnError": true` stops that.
+- `"strict": true` on unconverted code gave six errors, all about concepts from later stages (`noImplicitAny` on untyped imports, `strictNullChecks` on `querySelector`). `exactOptionalPropertyTypes` also refuses to work without `strictNullChecks`. Both were left off until Stage 19.
+
+Python comparison: closer to running `mypy` before shipping than to anything Python does at runtime. Python ignores annotations when it runs, and so does the browser with TypeScript's.

@@ -47,6 +47,7 @@ The repository should eventually follow a structure similar to:
 expense-tracker/
 │
 ├── plan.md
+├── plan-typescript.md   (added once the roadmap reaches TypeScript)
 ├── LEARNED.md
 ├── README.md
 │
@@ -82,6 +83,8 @@ This file defines:
 * Progression toward React, FastAPI and cloud
 
 This file should remain relatively stable.
+
+**Note:** this file holds the JavaScript stages (Sections 12–26) and the overall journey/philosophy. Each later stack layer gets its own plan file once reached, to keep any single file from growing without bound — see `plan-typescript.md` for the TypeScript stage, active as of Section 33. `LEARNED.md` stays a single shared knowledge base across all of them.
 
 ---
 
@@ -400,7 +403,6 @@ Vanilla JavaScript
 Do NOT use:
 
 * React
-* TypeScript
 * Tailwind
 * Bootstrap
 * Vue
@@ -409,6 +411,8 @@ Do NOT use:
 * Backend frameworks
 
 until the roadmap reaches those technologies.
+
+**Update (see Section 33):** the JavaScript foundation is complete and the roadmap has reached TypeScript. TypeScript is now allowed — its stages live in `plan-typescript.md`, not in this file. React remains off-limits until that file's stages are done.
 
 The purpose is to understand the underlying concepts before introducing abstractions.
 
@@ -960,6 +964,8 @@ The learner should first be comfortable explaining:
 * Basic HTTP concepts
 * Git
 
+**Status:** All items above are now understood and demonstrated. Asynchronous JavaScript, Promises, `async`/`await`, APIs, and basic HTTP concepts were completed in the standalone mini-project at `C:\git\mini-project\` (see its `plan.md` and `LEARNED.md`) — Stage 13 of this plan, deferred there so it wouldn't stall this project. All other items were covered directly in this project's own stages. Ready to begin TypeScript.
+
 Once these foundations are sufficiently understood, begin:
 
 ```text
@@ -978,6 +984,8 @@ Docker
 Cloud
 ```
 
+**TypeScript stage started:** the TypeScript phase of this path is now underway. Its staged roadmap, ground rules, and progress checklist live in `plan-typescript.md` (kept separate so this file doesn't need renumbering every time the roadmap reaches a new stack layer). `LEARNED.md` remains the single shared knowledge base across every stage, in this file and in `plan-typescript.md` alike. A mentor session should read this file for the JavaScript history and philosophy, then switch to `plan-typescript.md` for current-stage state.
+
 ---
 
 # 34. Mentor Session Prompt
@@ -986,6 +994,7 @@ At the beginning of a new session, Claude should read:
 
 ```text
 plan.md
+plan-typescript.md   (once the roadmap reaches TypeScript — see Section 33)
 LEARNED.md
 ```
 

@@ -1,5 +1,5 @@
 console.log("JavaScript Activated.");
-
+console.log("Testing")
 import { loadTransactions } from "./storage.js";
 import { renderTransactions, addTransaction } from "./ui.js";
 const Transaction = {
