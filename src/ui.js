@@ -2,7 +2,7 @@ import { saveTransactions } from "./storage.js";
 
 import { convert_to_date, createTransaction } from "./transactions.js";
 
-import { FindTotal, getCategoryTotals } from "./calculations.js";
+import { FindTotal, getCategoryTotals } from "./calculations.ts";
 
 let editingIndex = null;
 const inp_desc = document.querySelector("#description-input");

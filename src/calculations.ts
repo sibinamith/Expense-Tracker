@@ -1,4 +1,4 @@
-export function FindTotal(transactions) {
+export function FindTotal(transactions :{expense: boolean ; amount: number}[]): {totalIncome: number, totalExpenses: number, balance: number} {
   const totalIncome = transactions.reduce((total, trans) => {
     if (trans.expense === false) {
       return total + trans.amount;
